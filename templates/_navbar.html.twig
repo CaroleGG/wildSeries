@@ -5,10 +5,10 @@
             <ul class="navbar-nav">
             <img src="{{ asset('build/logoWildSeries.png') }}" alt="wild series" width='25%' height='25%'/>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/">Home</a>
+                    <a class="nav-link active" aria-current="page" href="{{ path('app_index') }}">Home</a>
                 </li>
                  <li class="nav-item">
-                    <a class="nav-link" href="/program">Program</a>
+                    <a class="nav-link" href="{{ path('program_index') }}">Program</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/movies">
