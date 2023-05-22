@@ -6,37 +6,39 @@ use App\Entity\Season;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-
+use Faker\Factory;
 
 class SeasonFixtures extends Fixture implements DependentFixtureInterface
 {
+    public const NB_MAX_SEASONS = 5;
+
     public function load(ObjectManager $manager): void
     {
-        $season = new Season();
-        $season->setNumber(1);
-        $season->setProgram($this->getReference('program_Friends'));
-        $season->setYear(1994);
-        $season->setDescription('Amazing');
-
         
+        $faker = Factory::create();
 
-        $manager->persist($season);
+         foreach (ProgramFixtures::PROGRAMS as $program) {
+            $seasonNumber = 1;
 
-        $this->addReference('season1_Friends', $season);
+             while ($seasonNumber <= self::NB_MAX_SEASONS) { 
+                //for($i = 1; $i < self::NB_MAX_SEASONS; $i++) {
+                     $season = new Season();
+                    //$season->setNumber($seasonNumber);
+                     $season->setNumber($seasonNumber);
+                     //$season->setProgram($this->getReference('program_' . $faker->numberBetween(1, 10)));
+                     $season->setProgram($this->getReference('program_'. $program['title']));
+                    $season->setYear($faker->year());
+                     $season->setDescription($faker->paragraphs(1, true));
 
-        $season2 = new Season();
-        $season2->setNumber(2);
-        $season2->setProgram($this->getReference('program_Friends'));
-        $season2->setYear(1995);
-        $season2->setDescription('trop génial');
-
-        
-
-        $manager->persist($season2);
-
-        $this->addReference('season2_Friends', $season2);
-
-        $manager->flush();
+                     $manager->persist($season);
+            //a changer!! 11mai
+                     $this->addReference('season_' . $seasonNumber . '_' . $program['title'], $season);
+                     $seasonNumber++;
+                //}
+                 
+            }
+            $manager->flush();
+        }
     }
 
     public function getDependencies()

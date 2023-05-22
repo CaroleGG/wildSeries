@@ -12,9 +12,12 @@
 
         <div class="media-body">
 
+            <h1> {{ program.title }} </h1>
+            <p>{{ program.synopsis }}</p>
+
             <p>Catégorie : {{ program.category.name }}</p>
 
-            <h4>Saison {{season.number}} de {{ program.title }}</h4>
+            <h4>Saison {{season.number}} </h4>
             
             {% if not season.episodes is empty %}
             <p> Liste des épisodes : </p>
@@ -22,6 +25,9 @@
                 {% for episode in season.episodes %}
                 
                     <li>{{episode.number}}. {{episode.title}}</a></li>
+                    <p>synopsis:{{ episode.synopsis }}</p>
+
+
                 {% endfor %}
                 </ul>
             {% else %}
